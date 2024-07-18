@@ -11,11 +11,13 @@ function App() {
     duration: 10
 })
 
+const inputIsValid = userInput.duration>=1; // booleano necessario per evitare bug
+
 function handleChange(inputIdentifier, newValue){
     setUserInput(prevUserInput => {
         return{
             
-            ...prevUserInput,
+            ...prevUserInput,//copio l'array userInput in uno nuovo evitando il side effect
             [inputIdentifier]: +newValue, // + mi permette di trasformare una stringa in un int o double
 
         };
@@ -26,7 +28,8 @@ function handleChange(inputIdentifier, newValue){
     <>
     <Header />
     <UserInput userInput={userInput} onChange={handleChange}/>
-    <Results input={userInput} />
+     {!inputIsValid && <p className="center">Please enter a duration greader than 0</p>}
+    {inputIsValid && <Results input={userInput}/>} 
     </>
 
   );
